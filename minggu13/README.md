@@ -10,18 +10,18 @@ sudo apt install mariadb-server roundcube
 
 Pilih `yes` untuk membuat database secara otomatis oleh roundcube
 
-![listen](blob/dovecot/confiq_roundcube.png)
+![listen](blob/confiq_roundcube.png)
 
 Masukkan password database roundcube.
 
-![listen](blob/dovecot/passRoundcube.png)
+![listen](blob/passRoundcube.png)
 
-![listen](blob/dovecot/passRoundcubeconfirm.png)
+![listen](blob/passRoundcubeconfirm.png)
 
 Edit file `/etc/roundcube/config.inc.php`.
 
 ```console
-sudo nano /etc/roundcube/config.inc.php
+sudo vim /etc/roundcube/config.inc.php
 ```
 
 Isikan default host dengan nama domain mail server.
@@ -67,23 +67,23 @@ sudo dpkg-reconfigure roundcube-core
 
 Kosongkan karena kita tidak menggunakan tls.
 
-![listen](blob/dovecot/rekon1.png)
+![listen](blob/rekon1.png)
 
 Pilih bahasa untuk roundcube.
 
-![listen](blob/dovecot/rekon2.png)
+![listen](blob/rekon2.png)
 
 Pilih no jika tidak ingin reinstall database yang telah dibuat.
 
-![listen](blob/dovecot/rekon3.png)
+![listen](blob/rekon3.png)
 
 Check pada pilihan apache dan uncheck lighttpd.
 
-![listen](blob/dovecot/rekon4.png)
+![listen](blob/rekon4.png)
 
 Pilih yes untuk merestart web server.
 
-![listen](blob/dovecot/rekon5.png)
+![listen](blob/rekon5.png)
 
 Edit apache config untuk memasukkan konfigurasi tambahan dari roundcube ke apache config.
 
@@ -105,7 +105,7 @@ sudo touch mail.conf
 sudo nano mail.conf
 ```
 
-![listen](blob/dovecot/main.conf.png)
+![listen](blob/main.conf.png)
 
 Disable apache default config dan enable kan mail config.
 
@@ -124,12 +124,12 @@ systemctl restart apache2
 
 Selanjutnya buka web browser pada sisi client dan masukkan domain dari mail server, maka akan muncul interface dari roundcube. Lalu login menggunakan salah satu user yang telah dibuat.
 
-![listen](blob/dovecot/web1.png)
+![listen](blob/web1.png)
 
 Klik pada compose dan isikan pesan untuk user lainnya. Lalu klik send.
 
-![listen](blob/dovecot/web2.png)
+![listen](blob/web2.png)
 
 Logout dan login ke user penerima, maka akan muncul pesan yang dikirim.
 
-![listen](blob/dovecot/web3.png)
+![listen](blob/web3.png)

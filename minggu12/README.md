@@ -7,6 +7,9 @@
 - [Instalasi Postfix](#instalasi-postfix)
   - [Persiapan](#persiapan)
   - [Konfigurasi](#konfigurasi)
+- [Konfigurasi Dovecot](#konfigurasi-dovecot)
+- [Menambahkan User Email](#menambahkan-user-email)
+- [Testing Postfix dan Dovecot menggunakan Telnet](#testing-postfix-dan-dovecot-menggunakan-telnet)
 
 # Instalasi Postfix
 
@@ -93,26 +96,30 @@ inet_protocols = all
 
 Untuk pengetesan, masukkan perintah `telnet mail.kampus-05.takehome.com` pada device client atau bisa menggunakan perintah `netstat -lntp | grep :25` pada server
 
-![testing_postfix](blob/postfix/testing_postfix.png)
 ![testing_postfix](blob/postfix/testing_server.png)
-
-[def]: #daftar-isi
 
 # Konfigurasi Dovecot
 
-Edit file konfigurasi /etc/dovecot/dovecot.conf.
+Edit file konfigurasi `/etc/dovecot/dovecot.conf`.
 
 ```console
-sudo nano /etc/dovecot/dovecot.conf
+sudo vim /etc/dovecot/dovecot.conf
 ```
 
 Uncomment dan edit baris berikut.
 
-![listen](blob/dovecot/listen.png)
-Edit file konfigurasi /etc/dovecot/conf.d/10-auth.conf.
+```console
+# from
+#listen = *, ::
+
+# to
+listen = *
+```
+
+Edit file konfigurasi `/etc/dovecot/conf.d/10-auth.conf`.
 
 ```console
-sudo nano /etc/dovecot/conf.d/10-auth.conf
+sudo vim /etc/dovecot/conf.d/10-auth.conf
 ```
 
 Uncomment dan ganti dari yes ke no.
@@ -123,15 +130,13 @@ Uncomment dan ganti dari yes ke no.
 disable_plaintext_auth = no
 ```
 
-Edit file konfigurasi /etc/dovecot/conf.d/10-mail.conf.
+Edit file konfigurasi `/etc/dovecot/conf.d/10-mail.conf`.
 
 ```console
-sudo nano /etc/dovecot/conf.d/10-mail.conf
+sudo vim /etc/dovecot/conf.d/10-mail.conf
 ```
 
 Uncomment pada `mail_location = maildir:~/Maildir` dan beri comment pada `mail_location = mbox:~/mail:INBOX=/var/mail/%u`.
-
-![listen](blob/dovecot/main_location.png)
 
 Restart dovecot service.
 
@@ -173,7 +178,7 @@ Gunakan perintah ini untuk mengirim test email.
 telnet mail.kampus-05.takehome.com 25
 ```
 
-![listen](blob/dovecot/test2.jpg)
+![testing_send_email](blob/postfix/testing_send_email.png)
 
 Melihat pesan menggunakan perintah `telnet <nama domain> <port>`. Login user menggunakan `user <nama user>`. Dan masukkan password menggunakan `pass <password>`. Untuk melihat list pesan yang diterima menggunakan perintah `list`. Dan untuk membuka pesan yang diterima menggunakan perintah `retr <nomer pesan>`. Perintah `quit` untuk keluar dari telnet.
 
@@ -181,4 +186,6 @@ Melihat pesan menggunakan perintah `telnet <nama domain> <port>`. Login user men
 telnet mail.kampus-05.takehome.com 110
 ```
 
-![listen](blob/dovecot/test.jpg)
+![testing_receive_email](blob/postfix/test_receive_email.png)
+
+[def]: #daftar-isi

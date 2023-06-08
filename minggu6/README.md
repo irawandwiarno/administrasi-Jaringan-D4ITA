@@ -93,12 +93,14 @@ Buka file config menggunakan perintah `sudo vim named.conf.local`. Untuk penulis
 ```console
 zone "kampus-05.takehome.com" {
   type master;
-  file "db.kampus-05.forward"
+  file "db.kampus-05.forward";
+  allow-transfer {10.252.108.212;};
 };
 
 zone "5.168.192.in-addr.arpa" {
   type master;
-  file "db.kampus-05.reverse"
+  file "db.kampus-05.reverse";
+  allow-transfer {10.252.108.212;};
 };
 ```
 
@@ -202,36 +204,7 @@ Setelah selesai mengatur kedua file diatas, selanjutnya kita akan reload service
 
 Setelah proses konfigurasi selesai dan memastikan jika service berjalan dengan lancar, maka langkah selanjutnya adalah melakukan testing.
 
-Disini kita menggunakan pcakage dns-utils untuk melakukan pengetesan. Install package menggunakan perintah `sudo apt install dnsutils` dan tunggu proses instalasi hingga selesai.
-
-Kemudian masukkan perintah `nslookup kampus-05.takehome.com` untuk mengetes.
-
-![nslookup_err](blob/nslookup_error.png)
-
-Pada pengetesan diatas ditemukan error dengan pesan "no servers could be reached" karena server yang dimaksud pada konfigurasi tidak ditemukan.
-
-Pertama lakukan pengecekan pada interface pada network, pastikan bahwa tidak ada konflik. Kemudian cek dns yang digunakan pada mesin yang terletak pada `/etc/resolv.conf`
-
-![resolv.conf](blob/resolv.png)
-
-kira ketahui bahwa ip `192.168.5.1` adalah ip yang digunakan pada router server kita, disini kita akan mengubahnya dari
-
-```console
-domain itotolink.net
-search itotolink.net
-nameserver 192.168.5.1
-```
-
-menjadi
-
-```console
-# domain itotolink.net
-# search itotolink.net
-nameserver 192.168.5.10
-```
-
-Kemudian simpan dan lakukan pengetesan lagi untuk forward dan reverse nya
-
-![nslookup_success](blob/nslookup_success.png)
+Testing dilakukan dengan menggunakan perintah nslookup pada client dan mengarahkan perintah tersebut pada dns yang sudah kita buat.
+![test](blob/test.png)
 
 [def]: #daftar-isi
